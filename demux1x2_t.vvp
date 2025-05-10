@@ -1,0 +1,69 @@
+#! /c/iverilog/bin/vvp
+:ivl_version "0.9.7 " "(v0_9_7)";
+:vpi_time_precision + 0;
+:vpi_module "system";
+:vpi_module "v2005_math";
+:vpi_module "va_math";
+S_01223EF0 .scope module, "demux1x2_tb" "demux1x2_tb" 2 2;
+ .timescale 0 0;
+v0122EDA8_0 .var "a", 0 0;
+v0122EE00_0 .var "en", 0 0;
+v0122EE58_0 .var "s", 0 0;
+v0122EEB0_0 .net "y", 1 0, v0122ED50_0; 1 drivers
+S_01223180 .scope module, "dut" "demux1x2" 2 5, 3 7, S_01223EF0;
+ .timescale 0 0;
+v01223208_0 .net "a", 0 0, v0122EDA8_0; 1 drivers
+v01223260_0 .net "en", 0 0, v0122EE00_0; 1 drivers
+v0122ECF8_0 .net "s", 0 0, v0122EE58_0; 1 drivers
+v0122ED50_0 .var "y", 1 0;
+E_01228590 .event edge, v01223260_0, v0122ECF8_0, v01223208_0;
+    .scope S_01223180;
+T_0 ;
+    %wait E_01228590;
+    %set/v v0122ED50_0, 0, 2;
+    %load/v 8, v01223260_0, 1;
+    %jmp/0xz  T_0.0, 8;
+    %load/v 8, v0122ECF8_0, 1;
+    %mov 9, 0, 1;
+    %cmpi/u 8, 0, 2;
+    %jmp/0xz  T_0.2, 4;
+    %load/v 8, v01223208_0, 1;
+    %ix/load 0, 0, 0;
+    %set/x0 v0122ED50_0, 8, 1;
+    %jmp T_0.3;
+T_0.2 ;
+    %load/v 8, v01223208_0, 1;
+    %ix/load 0, 1, 0;
+    %set/x0 v0122ED50_0, 8, 1;
+T_0.3 ;
+T_0.0 ;
+    %jmp T_0;
+    .thread T_0, $push;
+    .scope S_01223EF0;
+T_1 ;
+    %vpi_call 2 8 "$monitor", "Time=%0t: a=%b,  s=%b  ,en=%b, -> y=%b", $time, v0122EDA8_0, v0122EE58_0, v0122EE00_0, v0122EEB0_0;
+    %vpi_call 2 9 "$dumpfile", "demux1x2_tb.vcd";
+    %vpi_call 2 10 "$dumpvars", 1'sb0, S_01223EF0;
+    %set/v v0122EDA8_0, 0, 1;
+    %set/v v0122EE00_0, 0, 1;
+    %set/v v0122EE58_0, 0, 1;
+    %delay 10, 0;
+    %set/v v0122EDA8_0, 0, 1;
+    %set/v v0122EE00_0, 1, 1;
+    %set/v v0122EE58_0, 0, 1;
+    %delay 10, 0;
+    %set/v v0122EDA8_0, 1, 1;
+    %set/v v0122EE00_0, 1, 1;
+    %set/v v0122EE58_0, 0, 1;
+    %delay 10, 0;
+    %set/v v0122EE58_0, 1, 1;
+    %delay 10, 0;
+    %vpi_call 2 16 "$finish";
+    %end;
+    .thread T_1;
+# The file index is used to find the file name in the following table.
+:file_names 4;
+    "N/A";
+    "<interactive>";
+    "demux1x2_tb.v";
+    "./demux1x2.v";

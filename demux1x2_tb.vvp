@@ -1,0 +1,59 @@
+#! /c/iverilog/bin/vvp
+:ivl_version "0.9.7 " "(v0_9_7)";
+:vpi_time_precision + 0;
+:vpi_module "system";
+:vpi_module "v2005_math";
+:vpi_module "va_math";
+S_01208C18 .scope module, "demux1x2_tb" "demux1x2_tb" 2 2;
+ .timescale 0 0;
+v01203ED8_0 .var "a", 0 0;
+v0120E9B8_0 .var "en", 0 0;
+v0120EA10_0 .var "s", 0 0;
+RS_01083B54 .resolv tri, L_010A1160, L_010A0F50, C4<zz>, C4<zz>;
+v010A1580_0 .net8 "y", 1 0, RS_01083B54; 2 drivers
+S_01208860 .scope module, "dut" "demux1x2" 2 5, 3 1, S_01208C18;
+ .timescale 0 0;
+L_0120EAA0 .functor AND 1, v01203ED8_0, v0120E9B8_0, C4<1>, C4<1>;
+L_0120EB48 .functor AND 1, L_0120EAA0, v0120EA10_0, C4<1>, C4<1>;
+L_0120EC28 .functor AND 1, v01203ED8_0, v0120E9B8_0, C4<1>, C4<1>;
+L_0120EC60 .functor NOT 1, v0120EA10_0, C4<0>, C4<0>, C4<0>;
+L_0120EC98 .functor AND 1, L_0120EC28, L_0120EC60, C4<1>, C4<1>;
+v01083780_0 .net *"_s10", 0 0, L_0120EC60; 1 drivers
+v010837D8_0 .net *"_s12", 0 0, L_0120EC98; 1 drivers
+v01083830_0 .net *"_s2", 0 0, L_0120EAA0; 1 drivers
+v01203188_0 .net *"_s4", 0 0, L_0120EB48; 1 drivers
+v012031E0_0 .net *"_s8", 0 0, L_0120EC28; 1 drivers
+v01203238_0 .net "a", 0 0, v01203ED8_0; 1 drivers
+v01203DD0_0 .net "en", 0 0, v0120E9B8_0; 1 drivers
+v01203E28_0 .net "s", 0 0, v0120EA10_0; 1 drivers
+v01203E80_0 .alias "y", 1 0, v010A1580_0;
+L_010A1160 .part/pv L_0120EB48, 1, 1, 2;
+L_010A0F50 .part/pv L_0120EC98, 0, 1, 2;
+    .scope S_01208C18;
+T_0 ;
+    %vpi_call 2 8 "$monitor", "Time=%0t: a=%b,  s=%b  ,en=%b, -> y=%b", $time, v01203ED8_0, v0120EA10_0, v0120E9B8_0, v010A1580_0;
+    %vpi_call 2 9 "$dumpfile", "demux1x2_tb.vcd";
+    %vpi_call 2 10 "$dumpvars", 1'sb0, S_01208C18;
+    %set/v v01203ED8_0, 0, 1;
+    %set/v v0120E9B8_0, 0, 1;
+    %set/v v0120EA10_0, 0, 1;
+    %delay 10, 0;
+    %set/v v01203ED8_0, 0, 1;
+    %set/v v0120E9B8_0, 1, 1;
+    %set/v v0120EA10_0, 0, 1;
+    %delay 10, 0;
+    %set/v v01203ED8_0, 1, 1;
+    %set/v v0120E9B8_0, 1, 1;
+    %set/v v0120EA10_0, 0, 1;
+    %delay 10, 0;
+    %set/v v0120EA10_0, 1, 1;
+    %delay 10, 0;
+    %vpi_call 2 16 "$finish";
+    %end;
+    .thread T_0;
+# The file index is used to find the file name in the following table.
+:file_names 4;
+    "N/A";
+    "<interactive>";
+    "demux1x2_tb.v";
+    "./demux1x2.v";
